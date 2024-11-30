@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blox Fruit Trade Value Calculator</title>
+  <link rel="shortcut icon" href="https://media.istockphoto.com/id/1311598658/photo/businessman-trading-online-stock-market-on-teblet-screen-digital-investment-concept.webp?a=1&b=1&s=612x612&w=0&k=20&c=IWQzVeh6--ZOe9YxB1-EI1KSWooYTpZS2sqe6Zu6GJM=" type="image/x-icon">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #282c34, #1c1f26);
+      color: #f9f9f9;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+      padding: 30px 20px;
+      border-bottom: 4px solid #ff6347;
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      margin: 0;
+    }
+
+    header p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      margin: 10px 0 0;
+    }
+
+    main {
+      padding: 40px 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .calculator {
+      margin: 20px auto;
+      max-width: 800px;
+      background: #333;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .calculator:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .calculator h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-bottom: 20px;
+    }
+
+    .fruit-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .fruit-item label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      border-radius: 8px;
+      background: #444;
+      color: #fff;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .fruit-item label:hover {
+      background: #555;
+      transform: translateY(-5px);
+    }
+
+    .fruit-item input {
+      margin-top: 10px;
+      width: 60%;
+      padding: 5px;
+      border-radius: 5px;
+      border: none;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: white;
+      background: linear-gradient(90deg, #ff7f50, #ff4500);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #ff6347, #e53935);
+      transform: translateY(-3px);
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 8px;
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      color: #ffdf00;
+      animation: popIn 0.5s ease-out;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 20px;
+      background: #20232a;
+      color: #bbb;
+      font-size: 0.9rem;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0.8);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Blox Fruits Trade Value Calculator</h1>
+    <p>Maximize your trades with accurate value insights!</p>
+  </header>
+
+  <main>
+    <div class="calculator">
+      <h2>Select Your Fruits</h2>
+      <div class="fruit-list" id="fruit-list">
+        <!-- Fruits will be loaded dynamically -->
+      </div>
+      <button onclick="calculateTotal()">Calculate Total Value</button>
+      <div class="result" id="result">Total Value: 0</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Blox Fruit Calculator | Designed with 💙 for Gamers</p>
+  </footer>
+
+  <script>
+    const fruits = [
+      { name: "Kilo", value: 50 },
+      { name: "Spin", value: 100 },
+      { name: "Chop", value: 200 },
+      { name: "Flame", value: 700 },
+      { name: "Light", value: 1400 },
+      { name: "Rubber", value: 1500 },
+      { name: "Barrier", value: 1600 },
+      { name: "Magma", value: 1800 },
+      { name: "Quake", value: 2200 },
+      { name: "Buddha", value: 2500 },
+      { name: "Phoenix", value: 3000 },
+      { name: "Rumble", value: 3200 },
+      { name: "Blizzard", value: 3500 },
+      { name: "Gravity", value: 3700 },
+      { name: "Dough", value: 4000 },
+      { name: "Shadow", value: 4200 },
+      { name: "Venom", value: 4500 },
+      { name: "Control", value: 4700 },
+      { name: "Dragon", value: 5000 },
+      { name: "Leopard", value: 6000 },
+      { name: "Kitsune", value: 8000 }
+    ];
+
+    window.onload = () => {
+      const fruitList = document.getElementById("fruit-list");
+      fruits.forEach(fruit => {
+        const fruitItem = document.createElement("div");
+        fruitItem.classList.add("fruit-item");
+
+        fruitItem.innerHTML = `
+          <label>
+            <span>${fruit.name} - ${fruit.value}</span>
+            <input type="number" value="0" min="0" id="${fruit.name}-quantity" placeholder="Quantity">
+          </label>
+        `;
+
+        fruitList.appendChild(fruitItem);
+      });
+    }; 
+
+    function calculateTotal() {
+      let total = 0;
+
+      fruits.forEach(fruit => {
+        const quantityInput = document.getElementById(`${fruit.name}-quantity`);
+        const quantity = parseInt(quantityInput.value) || 0;
+        total += fruit.value * quantity;
+      });
+
+      document.getElementById("result").innerText = `Total Value: ${total}`;
+    }
+  </script>
+</body>
+</html>
