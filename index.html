@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blox Fruit Trade Value Calculator</title>
+  <title>Blox Fruits Trade Value Calculator</title>
   <link rel="shortcut icon" href="https://media.istockphoto.com/id/1311598658/photo/businessman-trading-online-stock-market-on-teblet-screen-digital-investment-concept.webp?a=1&b=1&s=612x612&w=0&k=20&c=IWQzVeh6--ZOe9YxB1-EI1KSWooYTpZS2sqe6Zu6GJM=" type="image/x-icon">
   <style>
     body {
@@ -16,26 +16,64 @@
       overflow-x: hidden;
     }
 
-    header {
-      background: linear-gradient(to right, #6a11cb, #2575fc);
-      color: white;
-      padding: 30px 20px;
-      border-bottom: 4px solid #ff6347;
+    .animated-header {
+      text-align: center;
+      perspective: 800px;
     }
 
-    header h1 {
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      margin: 0;
+    .animated-header h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #00ffff;
+      text-shadow: 
+        0 1px 0 #006666,
+        0 2px 0 #006666,
+        0 3px 0 #006666,
+        0 4px 0 #006666,
+        0 5px 15px rgba(0, 255, 255, 0.6);
+      animation: float 3s ease-in-out infinite;
+      transform: rotateX(10deg) rotateY(20deg);
     }
 
-    header p {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      margin: 10px 0 0;
+    .animated-header p {
+      font-size: 1.2rem;
+      color: #ffa500;
+      text-shadow: 0 0 10px rgba(255, 165, 0, 0.8);
+      animation: fadeIn 3s infinite alternate;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: rotateX(10deg) rotateY(20deg) translateY(0);
+      }
+      50% {
+        transform: rotateX(10deg) rotateY(20deg) translateY(-10px);
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0.6;
+      }
+      100% {
+        opacity: 1;
+      }
     }
 
     main {
       padding: 40px 20px;
-      animation: fadeIn 1s ease-in-out;
+      animation: fadeInMain 1s ease-in-out;
+    }
+
+    @keyframes fadeInMain {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .calculator {
@@ -74,7 +112,6 @@
       border-radius: 8px;
       background: #444;
       color: #fff;
-      text-align: center;
       cursor: pointer;
       transition: transform 0.3s, background-color 0.3s;
     }
@@ -82,6 +119,14 @@
     .fruit-item label:hover {
       background: #555;
       transform: translateY(-5px);
+    }
+
+    .fruit-image {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 10px;
     }
 
     .fruit-item input {
@@ -118,7 +163,6 @@
       border-radius: 8px;
       font-size: clamp(1rem, 2vw, 1.5rem);
       color: #ffdf00;
-      animation: popIn 0.5s ease-out;
     }
 
     footer {
@@ -132,30 +176,10 @@
     footer p {
       margin: 0;
     }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes popIn {
-      0% {
-        transform: scale(0.8);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
   </style>
 </head>
 <body>
-  <header>
+  <header class="animated-header">
     <h1>Blox Fruits Trade Value Calculator</h1>
     <p>Maximize your trades with accurate value insights!</p>
   </header>
@@ -163,9 +187,7 @@
   <main>
     <div class="calculator">
       <h2>Select Your Fruits</h2>
-      <div class="fruit-list" id="fruit-list">
-        <!-- Fruits will be loaded dynamically -->
-      </div>
+      <div class="fruit-list" id="fruit-list"></div>
       <button onclick="calculateTotal()">Calculate Total Value</button>
       <div class="result" id="result">Total Value: 0</div>
     </div>
@@ -177,27 +199,27 @@
 
   <script>
     const fruits = [
-      { name: "Kilo", value: 50 },
-      { name: "Spin", value: 100 },
-      { name: "Chop", value: 200 },
-      { name: "Flame", value: 700 },
-      { name: "Light", value: 1400 },
-      { name: "Rubber", value: 1500 },
-      { name: "Barrier", value: 1600 },
-      { name: "Magma", value: 1800 },
-      { name: "Quake", value: 2200 },
-      { name: "Buddha", value: 2500 },
-      { name: "Phoenix", value: 3000 },
-      { name: "Rumble", value: 3200 },
-      { name: "Blizzard", value: 3500 },
-      { name: "Gravity", value: 3700 },
-      { name: "Dough", value: 4000 },
-      { name: "Shadow", value: 4200 },
-      { name: "Venom", value: 4500 },
-      { name: "Control", value: 4700 },
-      { name: "Dragon", value: 5000 },
-      { name: "Leopard", value: 6000 },
-      { name: "Kitsune", value: 8000 }
+      { name: "Rocket", value: 5000, image: "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Rocket_Icon.webp" },
+      { name: "Spin", value: 7500, image: "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Spin_Icon.webp" },
+      { name: "Chop", value: 30000, image: "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Chop_Icon.webp" },
+      { name: "Flame", value: 250000, image: "https://bloxfruitscalc.com/wp-content/uploads/2024/09/Flame_Icon.webp" },
+      { name: "Light", value: 650000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Light_Icon.webp"},
+      { name: "Rubber", value: 750000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Rubber_Icon.webp" },
+      { name: "Barrier", value: 800000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Barrier_Icon.webp" },
+      { name: "Magma", value: 960000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Magma_Icon.webp" },
+      { name: "Quake", value: 1000000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Quake_Icon.webp" },
+      { name: "Buddha", value: 1200000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Buddha_Icon.webp" },
+      { name: "Phoenix", value:1800000 , image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Phoenix_Icon.webp" },
+      { name: "Rumble", value:2100000 , image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Rumble_Icon.webp" },
+      { name: "Blizzard", value: 5000000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Blizzard_Icon.webp" },
+      { name: "Gravity", value: 2500000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Gravity_Icon.webp" },
+      { name: "Dough", value: 2800000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Dough_Icon.webp" },
+      { name: "Shadow", value:2900000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Shadow_Icon.webp" },
+      { name: "Venom", value: 3000000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Venom_Icon.webp" },
+      { name: "Control", value:3200000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Control_Icon.webp" },
+      { name: "Dragon", value:3500000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Dragon_Icon.webp" },
+      { name: "Leopard", value:5000000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Leopard_Icon.webp" },
+      { name: "Kitsune", value: 8000000, image:"https://bloxfruitscalc.com/wp-content/uploads/2024/09/Kitsune_Icon.webp" }
     ];
 
     window.onload = () => {
@@ -208,14 +230,15 @@
 
         fruitItem.innerHTML = `
           <label>
-            <span>${fruit.name} - ${fruit.value}</span>
+            <img src="${fruit.image}" alt="${fruit.name}" class="fruit-image">
+            <span>${fruit.name} - $${fruit.value}</span>
             <input type="number" value="0" min="0" id="${fruit.name}-quantity" placeholder="Quantity">
-          </label>
+          </label> 
         `;
 
         fruitList.appendChild(fruitItem);
       });
-    }; 
+    };
 
     function calculateTotal() {
       let total = 0;
@@ -226,7 +249,7 @@
         total += fruit.value * quantity;
       });
 
-      document.getElementById("result").innerText = `Total Value: ${total}`;
+      document.getElementById("result").innerText = `Total Value: $${total}`;
     }
   </script>
 </body>
